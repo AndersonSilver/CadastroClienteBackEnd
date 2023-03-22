@@ -3,8 +3,9 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-app.use(bodyParser.urlencoded({extends:false}))
 app.use(cors());
+
+app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json());
 
 app.listen(3000, err =>{
@@ -138,7 +139,90 @@ app.delete("/cadastro/:id", (req,res)=>{
             BancoDeDados.CadatroPessoal.splice(index,1)
             res.sendStatus(200);
         }else{
-            res.sendStatus(400);
+            res.sendStatus(404);
+        }
+    }
+})
+
+app.put("/cadastro/:id",(req,res)=>{
+
+    let id = parseInt(req.params.id);
+
+    if(isNaN(id)){
+        res.statusCode = 400;
+    }else{
+
+        let atualizarCadastro = BancoDeDados.CadatroPessoal.find(g => g.id == id)
+
+        if(atualizarCadastro != undefined){
+
+            let { 
+                nome,
+                sobrenome,
+                sexo,
+                celular,
+                nascimento,
+                email,
+                cpf,
+                cep,
+                rua,
+                numeroCasa,
+                complemento,
+                referencia,
+                bairro,
+                cidade,
+                estado
+        } = req.body;
+
+        if(nome != undefined){
+            atualizarCadastro.nome = nome;
+        }
+        if(sobrenome != undefined){
+        atualizarCadastro.sobrenome = sobrenome;
+        }
+        if(sexo != undefined){
+        atualizarCadastro.sexo = sexo;
+        }
+        if(celular != undefined){
+        atualizarCadastro.celular = celular;
+        }
+        if(nascimento != undefined){
+        atualizarCadastro.nascimento = nascimento;
+        }
+        if(email != undefined){
+        atualizarCadastro.email = email;
+        }
+        if(cpf != undefined){
+        atualizarCadastro.cpf = cpf;
+        }
+        if(cep != undefined){
+        atualizarCadastro.cep = cep;
+        }
+        if(rua != undefined){
+        atualizarCadastro.rua = rua;
+        }
+        if(numeroCasa != undefined){
+        atualizarCadastro.numeroCasa = numeroCasa;
+        }
+        if(complemento != undefined){
+        atualizarCadastro.complemento = complemento;
+        }
+        if(referencia != undefined){
+        atualizarCadastro.referencia = referencia;
+        }
+        if(bairro != undefined){
+        atualizarCadastro.bairro = bairro;
+        }
+        if(cidade != undefined){
+        atualizarCadastro.cidade = cidade;
+        }
+        if(estado != undefined){
+        atualizarCadastro.estado = estado;
+        }
+        res.sendStatus(200);
+
+        }else{
+            res.sendStatus(404);
         }
     }
 })
